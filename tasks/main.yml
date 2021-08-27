@@ -1,0 +1,6 @@
+---
+- name: Install Nginx
+  include_tasks: install.yml
+
+- name: Setup TCP and UDP Load Balancing
+  include_tasks: tcp_udp_nlb.yml

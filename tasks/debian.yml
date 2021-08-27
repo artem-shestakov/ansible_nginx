@@ -1,0 +1,44 @@
+---
+- name: Add repository
+  apt_repository:
+    repo: deb https://nginx.org/packages/ubuntu/ {{ ansible_facts['lsb']['codename'] }} nginx
+    state: present
+    filename: nginx
+  register: repo
+  ignore_errors: true
+
+- name: Adding repository key
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: "{{ repo | regex_search('^.* NO_PUBKEY (\\w*)', '\\1') | first }}"
+  when: repo.failed == true
+
+- name: Re-adding repository
+  apt_repository:
+    repo: deb https://nginx.org/packages/ubuntu/ {{ ansible_facts['lsb']['codename'] }} nginx
+    state: present
+    filename: nginx
+  when: repo.failed == true
+
+- name: Installing Nginx package
+  apt:
+    name: nginx
+    state: present
+    update_cache: true
+  notify:
+    - Enable and start Nginx
+
+- name: Remove default virtualhost
+  file:
+    path: /etc/nginx/conf.d/default.conf
+    state: absent
+
+- name: Loading Nginx configuration file
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Reload Nginx configuration

@@ -1,0 +1,18 @@
+---
+- name: Install Nginx app
+  hosts: all
+  remote_user: vagrant
+  become: true
+  roles:
+    - "{{ playbook_dir }}/.."
+  vars:
+    - tcp_udp_nlb:
+        - name: example
+          listen: 10001
+          servers:
+            - yandex.ru:443
+        - name: example2
+          listen: 10002
+          servers:
+            - 8.8.8.8:53
+            - 77.88.8.8:53

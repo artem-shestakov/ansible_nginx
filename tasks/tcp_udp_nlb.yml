@@ -1,0 +1,21 @@
+---
+- name: Create Stream config directory
+  file:
+    path: /etc/nginx/stream-conf.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  when: tcp_udp_nlb is defined
+
+- name: Configuring TCP or UDP Load Balancing
+  template:
+    src: tcp_udp_nlb.conf.j2
+    dest: "/etc/nginx/stream-conf.d/upstream_{{ item.name }}.conf"
+    owner: root
+    group: root
+    mode: '0644'
+  with_items: "{{ tcp_udp_nlb }}"
+  when: tcp_udp_nlb is defined
+  notify:
+    - Reload Nginx configuration

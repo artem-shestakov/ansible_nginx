@@ -1,0 +1,3 @@
+---
+user: "{% if ansible_facts['os_family'] == 'Debian'%}www-data{% else %}nginx{% endif %}"
+wkr_conn: 1024

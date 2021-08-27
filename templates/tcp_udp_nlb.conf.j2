@@ -1,0 +1,13 @@
+upstream {{ item.name }} {
+        {% if item.method is defined -%}
+        {{ item.method }};
+        {% endif -%}
+        {% for server in item.servers -%}
+        server {{ server }};
+        {% endfor -%}
+    }
+
+server {
+        listen     {{ item.listen}};
+        proxy_pass {{ item.name}};
+    }
