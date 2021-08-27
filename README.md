@@ -8,20 +8,13 @@ Requirements
 ------------
 None
 
-Role Variables
+TCP and UDP Load Balancing
 --------------
 
-* `mode` describes the operating mode the sync daemons. Has two value `master-master` or `master-backup`. Now work only `master-master`.
-* `vip` List of VIP adresses of the cluster.
-* `global_defs`:
-  - `notification_email` - List of emails to notify from `Keepalived`.
-  - `notification_email_from` - Email from address that will be in the header.
-  - `smtp_server` - Remote SMTP server used to send notification email.
-  - `smtp_connect_timeout` - SMTP server connection timeout in seconds.
-* `vrrp_instance`
-  -  `authentication`
-      - `auth_type` - PASS - Simple password (suggested). AH - IPSEC (not recommended)). Default `PASS`.
-      - `auth_pass` - Password for accessing vrrpd. Only the first eight (8) characters are used. If `auth_pass` has not specified, `authentication` will be missing.
+* **tcp_udp_nlb** List of dictionaries of (upstreams) backend servers for TCP and UDP load balancing with fields
+  * **name** - upstream's name
+  * **listen** - port for listining incoming traffic on nginx proxy
+  * **servers** - list of backend's servers
 
 
 Example Playbook
