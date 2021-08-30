@@ -1,0 +1,8 @@
+---
+- name: Build from source
+  include_tasks: build.yml
+
+- name: Create Nginx config file
+  include_role:
+    name: ../roles/install_from_repo
+    tasks_from: config

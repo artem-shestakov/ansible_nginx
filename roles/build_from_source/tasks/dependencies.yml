@@ -1,0 +1,36 @@
+---
+- name: Installing NGINX Dependencies (Red Hat OS Family)
+  dnf:
+    name:
+      - gcc
+      - gcc-c++
+      - make
+      - pcre-devel
+      - zlib-devel
+      - openssl-devel
+      - gd-devel
+      - libxml2-devel
+      - libxslt-devel
+      - perl-devel
+      - perl
+    state: present
+    update_cache: true
+  when: ansible_facts['os_family'] == "RedHat"
+
+- name: Installing NGINX Dependencies (Debian OS Family)
+  apt:
+    name:
+      - build-essential
+      - libpcre3
+      - libpcre3-dev
+      - zlib1g
+      - zlib1g-dev
+      - libssl-dev
+      - libgd-dev
+      - libxml2
+      - libxml2-dev
+      - libxslt-dev
+      - libperl-dev
+    state: present
+    update_cache: true
+  when: ansible_facts['os_family'] == "Debian"

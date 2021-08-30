@@ -1,0 +1,71 @@
+---
+- name: Installing NGINX Dependencies
+  include_tasks: dependencies.yml
+
+- name: Downloading the Sources
+  get_url:
+    url: https://nginx.org/download/nginx-{{ nginx_version }}.tar.gz
+    dest: "/tmp/nginx-{{ nginx_version }}.tar.gz"
+  register: nginx_source
+
+- name: Unpack source files
+  unarchive:
+    src: "{{ nginx_source.dest }}"
+    dest: /tmp
+    remote_src: true
+  register: source_unpack
+
+- name: Create Nginx directory
+  become: yes
+  file:
+    path: /etc/nginx
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Configuring NGINX source with custom modules
+  shell: >
+    {{ source_unpack.dest }}/nginx-{{ nginx_version }}/configure 
+    --prefix={{ nginx_prefix }}
+    --sbin-path={{ nginx_sbin_path }}
+    --conf-path={{ nginx_conf_path }}
+    --lock-path={{ nginx_lock_path }}
+    --pid-path={{ nginx_pid_path }}
+    --error-log-path={{ nginx_error_log_path }}
+    --http-log-path={{ nginx_http_log_path }}
+    --user={{ nginx_user }}
+    --group={{ nginx_group }}
+    --modules-path={{ nginx_modules_path }}
+    --http-client-body-temp-path={{ nginx_http_client_body_temp_path }}
+    --http-fastcgi-temp-path={{ nginx_http_fastcgi_temp_path }}
+    --http-proxy-temp-path={{ nginx_http_proxy_temp_path }}
+    --http-scgi-temp-path={{ nginx_http_scgi_temp_path }}
+    --http-uwsgi-temp-path={{ nginx_http_uwsgi_temp_path }}
+    --with-pcre
+    --with-pcre-jit
+    {{ _nginx_with_modules }}
+    {{ _nginx_without_modules }}
+  args:
+    chdir: "{{ source_unpack.dest }}/nginx-{{ nginx_version }}"
+  
+- name: Installing NGINX
+  become: yes
+  shell: make && make install
+  args:
+    chdir: "{{ source_unpack.dest }}/nginx-{{ nginx_version }}"
+
+- name: Create unit file
+  template:
+    src: nginx.service.j2
+    dest: /usr/lib/systemd/system/nginx.service
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Enable and start Nginx
+  systemd:
+    name: nginx
+    state: started
+    enabled: true
+    daemon_reload: true

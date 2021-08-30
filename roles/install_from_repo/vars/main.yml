@@ -1,0 +1,8 @@
+---
+_nginx_with: "\
+{% set __nginx_with = [] %}\
+{% for module in nginx_with %}\
+{{ __nginx_with.append(module) }}\
+{% endfor %}
+{{ __nginx_with|join(' ') }}
+"

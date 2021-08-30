@@ -1,0 +1,26 @@
+# Nginx version to install
+nginx_version: 1.20.1
+pcre_version: 8.45
+
+# Default Nginx directives
+nginx_prefix: /usr/share/nginx 
+nginx_sbin_path: /usr/sbin/nginx
+nginx_conf_path: /etc/nginx/nginx.conf
+nginx_lock_path: /run/lock/subsys/nginx
+nginx_pid_path: /run/nginx.pid
+nginx_error_log_path: /var/log/nginx/error.log 
+nginx_http_log_path: /var/log/nginx/access.log 
+nginx_user: "{% if ansible_facts['os_family'] == 'Debian'%}www-data{% else %}nginx{% endif %}" 
+nginx_group: "{{ nginx_user }}"
+zlib_dir: /usr/lib64
+pcre_dir: "{{ pcre_unpack.dest }}"
+openssl_dir: /usr/lib64
+nginx_modules_path: /usr/lib64/nginx/modules 
+nginx_http_client_body_temp_path: /var/lib/nginx/tmp/client_body
+nginx_http_fastcgi_temp_path: /var/lib/nginx/tmp/fastcgi
+nginx_http_proxy_temp_path: /var/lib/nginx/tmp/proxy
+nginx_http_scgi_temp_path: /var/lib/nginx/tmp/scgi
+nginx_http_uwsgi_temp_path: /var/lib/nginx/tmp/uwsgi 
+
+nginx_with_modules: []
+nginx_without_modules: []
