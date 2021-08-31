@@ -4,6 +4,7 @@
     name: nginx
     state: started
     enabled: true
+    daemon_reload: true
 
 - name: Reload Nginx configuration
   service:

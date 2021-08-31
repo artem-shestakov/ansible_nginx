@@ -1,5 +1,9 @@
+# General variables
+install_from: repo
+
 # Nginx version to install
 nginx_version: 1.20.1
+wkr_conn: 1024
 pcre_version: 8.45
 
 # Default Nginx directives
@@ -24,3 +28,18 @@ nginx_http_uwsgi_temp_path: /var/lib/nginx/tmp/uwsgi
 
 nginx_with_modules: []
 nginx_without_modules: []
+
+nginx_dynamic_modules:
+  - name: stream
+    module_file: ngx_stream_module.so
+  - name: mail
+    module_file: ngx_mail_module.so
+  - name: http_xslt_module
+    module_file: ngx_http_xslt_filter_module.so
+  - name: http_perl_module
+    module_file: ngx_http_perl_module.so
+  - name: http_image_filter_module
+    module_file: ngx_http_image_filter_module.so
+  - name: http_geoip_module
+    module: ngx_http_geoip_module.so
+

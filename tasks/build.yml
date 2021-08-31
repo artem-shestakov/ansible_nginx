@@ -62,10 +62,10 @@
     owner: root
     group: root
     mode: '0644'
+  notify: Enable and start Nginx
 
-- name: Enable and start Nginx
-  systemd:
-    name: nginx
-    state: started
-    enabled: true
-    daemon_reload: true
+- name: Create Nginx user
+  user:
+    name: "{{ nginx_user }}"
+    shell: /sbin/nologin
+    expires: -1

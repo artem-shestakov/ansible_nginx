@@ -1,0 +1,15 @@
+---
+- name: Install Nginx
+  include_tasks: install.yml
+  when: install_from == "repo"
+
+- name: Build from source
+  include_tasks: build.yml
+  when: install_from == "source"
+
+- name: Create Nginx configure file
+  include_tasks: config.yml
+
+- name: Setup TCP and UDP Load Balancing
+  include_tasks: tcp_udp_nlb.yml
+  when: tcp_udp_nlb is defined

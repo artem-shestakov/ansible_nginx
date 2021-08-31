@@ -1,13 +1,22 @@
-user {{ user }};
+user {{ nginx_user }};
 worker_processes auto;
 pid /run/nginx.pid;
 
 # Load dynamic modules.
-{% if ansible_facts['os_family'] == 'Debian' -%}
+{% if install_from == "source" -%}
+{% for module in nginx_dynamic_modules -%}
+{% if "--with-"+module.name+"=dynamic" in nginx_with_modules|replace(" ","") %}
+load_module {{ nginx_modules_path }}/{{ module.module_file }};
+{% endif -%}
+{% endfor -%}
+{% else -%}
+{% if ansible_facts['os_family'] == "Debian" -%}
 include /etc/nginx/modules-enabled/*.conf;
 {% else -%}
 include /usr/share/nginx/modules/*.conf;
 {% endif -%}
+{% endif %}
+
 
 error_log  /var/log/nginx/error.log warn;
 

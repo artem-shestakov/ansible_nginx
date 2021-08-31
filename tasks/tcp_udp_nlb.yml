@@ -6,7 +6,6 @@
     owner: root
     group: root
     mode: '0755'
-  when: tcp_udp_nlb is defined
 
 - name: Configuring TCP or UDP Load Balancing
   template:
@@ -16,6 +15,5 @@
     group: root
     mode: '0644'
   with_items: "{{ tcp_udp_nlb }}"
-  when: tcp_udp_nlb is defined
   notify:
     - Reload Nginx configuration
