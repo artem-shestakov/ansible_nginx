@@ -1,0 +1,8 @@
+server {
+    listen {{ stub_status_settings.listen }};
+    server_name {{ stub_status_settings.server_name }};
+
+    location {{ stub_status_settings.location }} {
+        stub_status;
+    }
+}

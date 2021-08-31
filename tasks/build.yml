@@ -15,14 +15,22 @@
     remote_src: true
   register: source_unpack
 
-- name: Create Nginx directory
+- name: Create Nginx directories
   become: yes
   file:
-    path: /etc/nginx
+    path: "{{ item }}"
     state: directory
     owner: root
     group: root
     mode: 0755
+  with_items:
+    - /etc/nginx
+    - /etc/nginx/conf.d
+    - "{{ nginx_http_client_body_temp_path }}"
+    - "{{ nginx_http_fastcgi_temp_path }}"
+    - "{{ nginx_http_proxy_temp_path }}"
+    - "{{ nginx_http_scgi_temp_path }}"
+    - "{{ nginx_http_uwsgi_temp_path }}"
 
 - name: Configuring NGINX source with custom modules
   shell: >

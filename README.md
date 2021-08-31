@@ -16,6 +16,7 @@ This role uses three type of variables. First and second depends on installation
   * **name** - upstream's name
   * **listen** - port for listining incoming traffic on nginx proxy
   * **servers** - list of backend's servers
+* **stub_status** - If true role will setting Nginx monitoring tool by (ngx_http_stub_status_module)[https://nginx.org/libxslt/en/docs/http/ngx_http_stub_status_module.html?_ga=2.119409609.1948393560.1630311972-884386294.1625301122]. Default: false
 
 ### Install from repository variables
 

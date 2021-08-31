@@ -3,13 +3,13 @@ _nginx_with_modules: "\
 {% set __nginx_with_modules = [] %}\
 {% for module in nginx_with_modules %}\
 {{ __nginx_with_modules.append(module) }}\
-{% endfor %}
+{% endfor %}\
 {{ __nginx_with_modules|join(' ') }}
 "
 _nginx_without_modules: "\
 {% set __nginx_without_modules = [] %}\
 {% for module in nginx_without_modules %}\
 {{ __nginx_without_modules.append(module) }}\
-{% endfor %}
+{% endfor %}\
 {{ __nginx_without_modules|join(' ') }}
 "
