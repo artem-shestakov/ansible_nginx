@@ -34,9 +34,29 @@
         - --with-http_auth_request_module 
         - --with-mail=dynamic 
         - --with-mail_ssl_module  
-        - --with-stream=dynamic
+        - --with-stream
         - --with-stream_ssl_module 
         - --with-debug
+    - nginx_add_modules:
+      - https://github.com/vozlt/nginx-module-vts.git
+      - https://github.com/vozlt/nginx-module-stream-sts.git
+      - https://github.com/vozlt/nginx-module-sts.git
+    - nginx_http_add:
+      - vhost_traffic_status_zone;
+      - stream_server_traffic_status_zone;
+    - nginx_stream_add:
+      - server_traffic_status_zone;
+    - nginx_virtual_servers:
+      - listen: "0.0.0.0:8080"
+        locations: 
+          - location: /streams-status
+            params:
+              - stream_server_traffic_status_display;
+              - stream_server_traffic_status_display_format html;
+          - location: /http-status
+            params:
+              - vhost_traffic_status_display;
+              - vhost_traffic_status_display_format html;
     - tcp_udp_nlb:
         - name: example
           listen: 10001
