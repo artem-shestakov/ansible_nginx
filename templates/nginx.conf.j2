@@ -26,6 +26,12 @@ events {
 
 
 http {
+    # Additional params from `nginx_http_add`
+    {% for param in nginx_http_add|default([], true) %}
+    {{ param }}
+    {% endfor %}
+    # end `nginx_http_add` params
+
     include       /etc/nginx/mime.types;
     default_type  application/octet-stream;
 
@@ -47,5 +53,11 @@ http {
 }
 
 stream {
+    # Additional params from `nginx_stream_add`
+    {% for param in nginx_stream_add|default([], true) -%}
+    {{ param }}
+    {% endfor -%}
+    # end `nginx_stream_add` params
+
     include /etc/nginx/stream-conf.d/*.conf;
 }

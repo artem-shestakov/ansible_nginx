@@ -12,6 +12,8 @@ This role uses three type of variables. First and second depends on installation
 
 ### General variables
 * **install_from** - The type of Nginx instalation. [source | repo]. Default: `repo`
+* **nginx_http_add** - List of additioanl params that will be added to the http section of Nginx configuration file. Default: []
+* **nginx_stream_add** - List of additioanl params that will be added to the stream section of Nginx configuration file. Default: []
 * **tcp_udp_nlb** List of dictionaries of (upstreams) backend servers for TCP and UDP load balancing with fields
   * **name** - upstream's name
   * **listen** - port for listining incoming traffic on nginx proxy

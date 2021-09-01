@@ -13,3 +13,18 @@ _nginx_without_modules: "\
 {% endfor %}\
 {{ __nginx_without_modules|join(' ') }}
 "
+_nginx_add_modules: "\
+{% set __nginx_add_modules = [] %}\
+{% for module in nginx_add_modules|default([], true) %}\
+{{ __nginx_add_modules.append('--add-module=/tmp/'+module.split('/')[-1].split('.')[0]) }}\
+{% endfor %}\
+{{ __nginx_add_modules|join(' ') }}
+"
+
+_nginx_virtual_hosts_configs: "\
+{% set __nginx_virtual_hosts_files = [] %}\
+{% for host in nginx_virtual_servers|default([], true) %}\
+{{ __nginx_virtual_hosts_files.append(host.listen|replace(\":\",\"_\")+'.conf') }}\
+{% endfor %}\
+{{ __nginx_virtual_hosts_files }}
+"

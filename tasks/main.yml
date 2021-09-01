@@ -10,9 +10,16 @@
 - name: Create Nginx configure file
   include_tasks: config.yml
 
+- name: Setup Virtual servers
+  include_tasks: virtual_servers.yml
+  when: nginx_virtual_servers is defined
+
 - name: Setup TCP and UDP Load Balancing
   include_tasks: tcp_udp_nlb.yml
   when: tcp_udp_nlb is defined
+
+- name: Delete unmanaged configuration files
+  include_tasks: unmanaged.yml
 
 - name: Using the stub_status Module
   import_tasks: stub_status.yml

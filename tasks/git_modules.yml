@@ -1,0 +1,7 @@
+---
+- name: Download source code of modules from git repositories
+  git:
+    repo: "{{ item }}"
+    dest: "/tmp/{{ item.split('/')[-1].split('.')[0] }}"
+  with_items: "{{ nginx_add_modules }}"
+  register: git_repos

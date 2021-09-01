@@ -32,6 +32,10 @@
     - "{{ nginx_http_scgi_temp_path }}"
     - "{{ nginx_http_uwsgi_temp_path }}"
 
+- name: Download modules from Git
+  include_tasks: git_modules.yml
+  when: nginx_add_modules is defined
+
 - name: Configuring NGINX source with custom modules
   shell: >
     {{ source_unpack.dest }}/nginx-{{ nginx_version }}/configure 
@@ -54,6 +58,7 @@
     --with-pcre-jit
     {{ _nginx_with_modules }}
     {{ _nginx_without_modules }}
+    {{ _nginx_add_modules }}
   args:
     chdir: "{{ source_unpack.dest }}/nginx-{{ nginx_version }}"
   
@@ -62,6 +67,7 @@
   shell: make && make install
   args:
     chdir: "{{ source_unpack.dest }}/nginx-{{ nginx_version }}"
+  notify: Enable and start Nginx
 
 - name: Create unit file
   template:

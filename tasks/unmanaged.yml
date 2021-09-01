@@ -1,0 +1,21 @@
+---
+- name: Find Nginx *.conf files
+  find:
+    paths: /etc/nginx/conf.d
+    patterns: '*.conf'
+  register: conf_files
+
+- name: Delete unmanaged virtual hosts
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  when: item.path.split('/')[-1] not in _nginx_virtual_hosts_configs and item.path.split('/')[-1] != 'stub_status.conf'
+  with_items: "{{ conf_files.files }}"
+  notify: Reload Nginx configuration
+
+- name: Delete stub_status configuration file
+  file:
+    path: /etc/nginx/conf.d/stub_status.conf
+    state: absent
+  when: not stub_status
+  notify: Reload Nginx configuration

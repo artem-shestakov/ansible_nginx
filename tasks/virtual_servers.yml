@@ -1,0 +1,10 @@
+---
+- name: Create virtual hosts configuration files
+  template:
+    src: virtual_server.conf.j2
+    dest: "/etc/nginx/conf.d/{{ item.listen|replace(\":\",\"_\") }}.conf"
+    owner: root
+    group: root
+    mode: '0644'
+  with_items: "{{ nginx_virtual_servers }}"
+  notify: Reload Nginx configuration

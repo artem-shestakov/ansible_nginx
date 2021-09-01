@@ -1,0 +1,13 @@
+ server {
+    # Server configuration
+    listen {{ item.listen }};
+
+    # Locations
+    {% for location in item.locations -%}
+    location {{ location.location }} {
+        {% for param in location.params|default([], true) %}
+        {{ param }}
+        {% endfor %}
+    }
+    {% endfor %}
+}
