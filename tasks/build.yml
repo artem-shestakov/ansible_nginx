@@ -16,7 +16,7 @@
   register: source_unpack
 
 - name: Create Nginx directories
-  become: yes
+  become: true
   file:
     path: "{{ item }}"
     state: directory
@@ -38,7 +38,7 @@
 
 - name: Configuring NGINX source with custom modules
   shell: >
-    {{ source_unpack.dest }}/nginx-{{ nginx_version }}/configure 
+    {{ source_unpack.dest }}/nginx-{{ nginx_version }}/configure
     --prefix={{ nginx_prefix }}
     --sbin-path={{ nginx_sbin_path }}
     --conf-path={{ nginx_conf_path }}
@@ -61,9 +61,9 @@
     {{ _nginx_add_modules }}
   args:
     chdir: "{{ source_unpack.dest }}/nginx-{{ nginx_version }}"
-  
+
 - name: Installing NGINX
-  become: yes
+  become: true
   shell: make && make install
   args:
     chdir: "{{ source_unpack.dest }}/nginx-{{ nginx_version }}"

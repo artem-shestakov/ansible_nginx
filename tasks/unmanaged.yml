@@ -16,7 +16,7 @@
     path: "{{ item.path }}"
     state: absent
   when: item.path.split('/')[-1] not in _nginx_virtual_host_configs and item.path.split('/')[-1] not in _nginx_stream_configs and item.path.split('/')[-1] != 'stub_status.conf'
-  with_items: 
+  with_items:
     - "{{ http_conf_files.files }}"
     - "{{ stream_conf_files.files }}"
   notify: Reload Nginx configuration
