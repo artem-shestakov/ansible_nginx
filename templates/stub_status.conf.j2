@@ -1,8 +1,8 @@
 server {
-    listen {{ stub_status_settings.listen }};
-    server_name {{ stub_status_settings.server_name }};
+    listen {{ stub_status_settings.listen|default("127.0.0.1:80", true) }};
+    server_name {{ stub_status_settings.server_name|default("127.0.0.1", true) }};
 
-    location {{ stub_status_settings.location }} {
+    location {{ stub_status_settings.location|default("/nginx_status", true) }} {
         stub_status;
     }
 }

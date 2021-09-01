@@ -8,6 +8,8 @@
   vars:
     - install_from: source
     - stub_status: true
+    - stub_status_settings:
+        listen: 0.0.0.0:80
     - nginx_with_modules:
         - --with-file-aio 
         - --with-ipv6 

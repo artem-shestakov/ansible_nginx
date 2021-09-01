@@ -11,12 +11,16 @@ None
 This role uses three type of variables. First and second depends on installation type. Third is general variables regardless of the choice of the installation type.
 
 ### General variables
-* **install_from** - The type of Nginx instalation. [source | repo]. Default: repo
+* **install_from** - The type of Nginx instalation. [source | repo]. Default: `repo`
 * **tcp_udp_nlb** List of dictionaries of (upstreams) backend servers for TCP and UDP load balancing with fields
   * **name** - upstream's name
   * **listen** - port for listining incoming traffic on nginx proxy
   * **servers** - list of backend's servers
-* **stub_status** - If true role will setting Nginx monitoring tool by (ngx_http_stub_status_module)[https://nginx.org/libxslt/en/docs/http/ngx_http_stub_status_module.html?_ga=2.119409609.1948393560.1630311972-884386294.1625301122]. Default: false
+* **stub_status** - If true role will setting Nginx monitoring tool by (ngx_http_stub_status_module)[https://nginx.org/libxslt/en/docs/http/ngx_http_stub_status_module.html?_ga=2.119409609.1948393560.1630311972-884386294.1625301122]. Default: `false`
+* **stub_status_settings** Dictionary of stub_status settings with fields
+  * **listen** - Sets the address and port for IP, or the path for a UNIX-domain socket on which the server will accept requests. Default: `127.0.0.1:80`
+  * **server_name** - Sets names of a virtual server. Default: `127.0.0.1`
+  * **location** - Sets configuration depending on a request URI. Default: `/nginx_status`
 
 ### Install from repository variables
 
