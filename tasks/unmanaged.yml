@@ -3,14 +3,22 @@
   find:
     paths: /etc/nginx/conf.d
     patterns: '*.conf'
-  register: conf_files
+  register: http_conf_files
+
+- name: Find Nginx *.conf files
+  find:
+    paths: /etc/nginx/stream-conf.d
+    patterns: '*.conf'
+  register: stream_conf_files
 
 - name: Delete unmanaged virtual hosts
   file:
     path: "{{ item.path }}"
     state: absent
-  when: item.path.split('/')[-1] not in _nginx_virtual_hosts_configs and item.path.split('/')[-1] != 'stub_status.conf'
-  with_items: "{{ conf_files.files }}"
+  when: item.path.split('/')[-1] not in _nginx_virtual_host_configs and item.path.split('/')[-1] not in _nginx_stream_configs and item.path.split('/')[-1] != 'stub_status.conf'
+  with_items: 
+    - "{{ http_conf_files.files }}"
+    - "{{ stream_conf_files.files }}"
   notify: Reload Nginx configuration
 
 - name: Delete stub_status configuration file
