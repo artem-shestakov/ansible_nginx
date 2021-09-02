@@ -59,7 +59,7 @@
                 - vhost_traffic_status_display_format html;
     - tcp_udp_nlb:
         - name: example
-          listen: 10001
+          listen: 10.0.3.33:10001
           servers:
             - 10.79.1.196:8500
         - name: example2
