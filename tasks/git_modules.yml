@@ -1,4 +1,9 @@
 ---
+- name: Check if git package is installed
+  package:
+    name: git
+    state: present
+
 - name: Download source code of modules from git repositories
   git:
     repo: "{{ item }}"

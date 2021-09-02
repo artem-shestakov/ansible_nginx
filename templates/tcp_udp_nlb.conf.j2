@@ -8,6 +8,8 @@ upstream {{ item.name }} {
     }
 
 server {
-        listen     {{ item.listen}};
+        {% for listen in item.listen -%}
+        listen     {{ listen }};
+        {% endfor -%}
         proxy_pass {{ item.name}};
     }
