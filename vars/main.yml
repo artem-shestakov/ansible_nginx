@@ -32,7 +32,7 @@ _nginx_virtual_host_configs: "\
 _nginx_stream_configs: "\
 {% set __nginx_stream_files = [] %}\
 {% for stream in tcp_udp_nlb|default([], true) %}\
-{{ __nginx_stream_files.append('upstream_'+stream.name+'.conf') }}\
+{{ __nginx_stream_files.append('upstream_'+stream.name|string+'.conf') }}\
 {% endfor %}\
 {{ __nginx_stream_files }}
 "
