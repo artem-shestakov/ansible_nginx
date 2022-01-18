@@ -1,0 +1,13 @@
+---
+stub_status: true
+nginx_virtual_servers:
+  - listen: 8080
+    locations:
+      - location: /
+        params:
+          - proxy_pass https://google.com;
+  - listen: 9080
+    locations:
+      - location: /
+        params:
+          - proxy_pass https://google.com;

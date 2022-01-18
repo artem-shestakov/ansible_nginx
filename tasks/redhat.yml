@@ -24,3 +24,4 @@
     name: httpd_can_network_connect
     state: true
     persistent: true
+  when: ansible_facts.selinux.status == 'enabled'

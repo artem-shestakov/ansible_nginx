@@ -7,18 +7,24 @@
   register: repo
   ignore_errors: true
 
+- name: Add dirmngr package
+  apt:
+    name: dirmngr
+    state: present
+  when: repo.failed
+
 - name: Adding repository key
   apt_key:
     keyserver: keyserver.ubuntu.com
     id: "{{ repo | regex_search('^.* NO_PUBKEY (\\w*)', '\\1') | first }}"
-  when: repo.failed == true
+  when: repo.failed
 
 - name: Re-adding repository
   apt_repository:
     repo: deb https://nginx.org/packages/ubuntu/ {{ ansible_facts['lsb']['codename'] }} nginx
     state: present
     filename: nginx
-  when: repo.failed == true
+  when: repo.failed
 
 - name: Installing Nginx package
   apt:

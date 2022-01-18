@@ -1,7 +1,10 @@
  server {
     # Server configuration
     listen {{ item.listen }};
-
+    {% if item.server_name is defined -%}
+    server_name {% for server_name in item.server_name %}{{ server_name }}{% if not loop.last %} {% endif %}{% endfor %};
+    {% endif %}
+    
     # Locations
     {% for location in item.locations -%}
     location {{ location.location }} {

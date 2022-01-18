@@ -1,2 +1,3 @@
 warn_list:
   - literal-compare
+  - no-changed-when
