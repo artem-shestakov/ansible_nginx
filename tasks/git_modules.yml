@@ -8,5 +8,6 @@
   git:
     repo: "{{ item }}"
     dest: "/tmp/{{ item.split('/')[-1].split('.')[0] }}"
+    version: master
   with_items: "{{ nginx_add_modules }}"
   register: git_repos

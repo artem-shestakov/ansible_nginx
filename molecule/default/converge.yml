@@ -5,10 +5,3 @@
     - name: "Include ansible_nginx"
       include_role:
         name: "ansible_nginx"
-  vars:
-    - nginx_virtual_servers:
-      - listen: 8080
-        locations:
-          - location: /
-            params:
-              - proxy_pass http://google.com;
