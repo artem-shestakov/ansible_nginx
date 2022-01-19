@@ -3,18 +3,38 @@
   hosts: all
   gather_facts: false
   tasks:
-  # Base Nginx checking
-  - name: Check Nginx package status
-    package:
-      name: nginx
-      state: present
-    check_mode: yes
-    register: pkg_status
+  # Checking Nginx base dirs and files
+  - name: Check Nginx directories
+    stat:
+      path: "{{ item }}"
+    with_items:
+      - /etc/nginx
+      - /etc/nginx/conf.d
+    register: nginx_dirs
   
-  - name: Check than Nginx installed
+  - name: Check Nginx directories params
     assert:
       that:
-        - not pkg_status.changed
+        - item.stat.exists
+        - item.stat.isdir
+        - item.stat.pw_name == 'root'
+        - item.stat.gr_name == 'root'
+        - item.stat.mode == '0755'
+    with_items: "{{ nginx_dirs.results }}"
+  
+  - name: Check unit file
+    stat:
+      path: /usr/lib/systemd/system/nginx.service
+    register: unit_file
+  
+  - name: Check unit file exists
+    assert:
+      that:
+        - unit_file.stat.exists
+        - unit_file.stat.isreg
+        - unit_file.stat.pw_name == 'root'
+        - unit_file.stat.gr_name == 'root'
+        - unit_file.stat.mode == '0644'
 
   # /etc/nginx/conf.d/default.conf
   - name: Check default config file

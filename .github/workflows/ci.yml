@@ -4,13 +4,19 @@ name: Build
   pull_request:
   push:
     branches:
-      - main
+      - master
 
 jobs:
 
   test:
-    name: Molecule test
+    name: test
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        distro:
+          - centos8
+          - ubuntu1804
+          - ubuntu2004
 
     steps:
       - name: Check out the codebase.
@@ -25,14 +31,16 @@ jobs:
         run: pip3 install ansible molecule[docker] yamllint ansible-lint
 
       - name: Run Molecule tests.
-        run: molecule test
+        run: molecule test --all
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
+          MOLECULE_DISTRO: ${{ matrix.distro }}
   
   build:
-    name: Build
+    name: build
     runs-on: ubuntu-latest
+    needs: test
 
     steps:
       - name: Check out the codebase.

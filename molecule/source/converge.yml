@@ -5,10 +5,3 @@
     - name: "Include ansible_nginx"
       include_role:
         name: "ansible_nginx"
-  vars:
-    - tcp_udp_nlb:
-      - name: example1
-        listen: 
-          - 8443
-        servers:
-          - google.com
