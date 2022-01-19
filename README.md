@@ -1,6 +1,6 @@
 Ansible Nginx role
 =========
-![Molecule CI](https://github.com/artem-shestakov/ansible_nginx/actions/workflows/Molecule%20CI/badge.svg)
+![Build](https://github.com/artem-shestakov/ansible_nginx/actions/workflows/ci.yml/badge.svg)
 
 Ansible role to install Nginx on Debian/Red Hat OS family.
 
