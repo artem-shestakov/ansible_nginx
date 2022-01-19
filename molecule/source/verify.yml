@@ -24,7 +24,7 @@
   
   - name: Check unit file
     stat:
-      path: /usr/lib/systemd/system/nginx.service
+      path: /etc/systemd/system/nginx.service
     register: unit_file
   
   - name: Check unit file exists
