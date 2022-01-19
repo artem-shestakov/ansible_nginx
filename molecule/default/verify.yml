@@ -3,6 +3,7 @@
   hosts: all
   gather_facts: false
   tasks:
+  # Base Nginx checking
   - name: Check Nginx package status
     package:
       name: nginx
@@ -15,6 +16,7 @@
       that:
         - not pkg_status.changed
 
+  # /etc/nginx/conf.d/default.conf
   - name: Check default config file
     stat:
       path: /etc/nginx/conf.d/default.conf
@@ -25,6 +27,7 @@
       that:
         - not def_config.stat.exists
   
+  # /etc/nginx/nginx.conf
   - name: Check Nginx config file
     stat:
       path: /etc/nginx/nginx.conf
@@ -35,8 +38,11 @@
       that:
         - nginx_config.stat.exists
         - nginx_config.stat.isreg
+        - nginx_config.stat.pw_name == 'root'
+        - nginx_config.stat.gr_name == 'root'
         - nginx_config.stat.mode == '0644'
 
+  #  /etc/nginx/conf.d/*.conf
   - name: Check Virtual server config file
     stat:
       path: "/etc/nginx/conf.d/{{ item.listen|replace(\":\",\"_\") }}.conf"
@@ -48,6 +54,8 @@
       that:
         - item.stat.exists
         - item.stat.isreg
+        - item.stat.pw_name == 'root'
+        - item.stat.gr_name == 'root'
         - item.stat.mode == '0644'
     with_items: "{{ vs_configs.results }}"
 
@@ -57,6 +65,61 @@
       patterns: '*'
     register: "conf_d_files"
   
+  - name: Check the numbers of Virtual server config files
+    assert:
+      that:
+        - nginx_virtual_servers|length == conf_d_files.matched
+    when: not stub_status
+  
+  - name: Check the numbers of Virtual server config files
+    assert:
+      that:
+        - (nginx_virtual_servers|length + 1) == conf_d_files.matched
+    when: stub_status
+  
+  # /etc/nginx/stream-conf.d
+  - name: Check Stream config directory
+    stat:
+      path: /etc/nginx/stream-conf.d
+    register: stream_dir
+  
+  - name: Check Stream directory exists
+    assert:
+      that:
+        - stream_dir.stat.exists
+        - stream_dir.stat.isdir
+        - stream_dir.stat.pw_name == 'root'
+        - stream_dir.stat.gr_name == 'root'
+        - stream_dir.stat.mode == '0755'
+
+  - name: Check Stream configs
+    stat:
+      path: /etc/nginx/stream-conf.d/upstream_{{ item.name }}.conf
+    with_items: "{{ tcp_udp_nlb }}"
+    register: stream_conf
+
+  - name: Check Stream configs exists
+    assert:
+      that:
+      - item.stat.exists
+      - item.stat.isreg
+      - item.stat.pw_name == 'root'
+      - item.stat.gr_name == 'root'
+      - item.stat.mode == '0644'
+    with_items: "{{ stream_conf.results }}"
+  
+  - name: Count Stream config files
+    find:
+      paths: /etc/nginx/stream-conf.d
+      patterns: '*'
+    register: "stream_d_files"
+  
+  - name: Check the numbers of Virtual server config files
+    assert:
+      that:
+        - tcp_udp_nlb|length == stream_d_files.matched
+  
+  # /etc/nginx/conf.d/stub_status.conf
   - name: Check stub_status configuration file
     stat:
       path: "/etc/nginx/conf.d/stub_status.conf"
@@ -74,18 +137,7 @@
         - not stub_status_config.stat.exists
     when: not stub_status
 
-  - name: Check the numbers of Virtual server config files
-    assert:
-      that:
-        - nginx_virtual_servers|length == conf_d_files.matched
-    when: not stub_status
-  
-  - name: Check the numbers of Virtual server config files
-    assert:
-      that:
-        - (nginx_virtual_servers|length + 1) == conf_d_files.matched
-    when: stub_status
-
+  # Ports and URLs
   - name: Check listening ports
     wait_for:
       port: "{{ item.listen|replace(\":\",\"_\") }}"
