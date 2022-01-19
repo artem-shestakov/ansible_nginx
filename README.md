@@ -1,6 +1,6 @@
 Ansible Nginx role
 =========
-![Build](https://github.com/artem-shestakov/ansible_nginx/actions/workflows/ci.yml/badge.svg)
+![Build](https://github.com/artem-shestakov/ansible_nginx/actions/workflows/ci.yml/badge.svg?branch=main)
 
 Ansible role to install Nginx on Debian/Red Hat OS family.
 

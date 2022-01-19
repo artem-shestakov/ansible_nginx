@@ -2,9 +2,11 @@
 name: Build
 'on':
   pull_request:
+    branches:
+      - main
   push:
     branches:
-      - master
+      - main
 
 jobs:
 
@@ -15,7 +17,6 @@ jobs:
       matrix:
         distro:
           - centos8
-          - ubuntu1804
           - ubuntu2004
 
     steps:

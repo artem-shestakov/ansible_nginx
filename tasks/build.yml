@@ -72,7 +72,7 @@
 - name: Create unit file
   template:
     src: nginx.service.j2
-    dest: /usr/lib/systemd/system/nginx.service
+    dest: /etc/systemd/system/nginx.service
     owner: root
     group: root
     mode: '0644'
