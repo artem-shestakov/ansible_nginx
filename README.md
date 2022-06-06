@@ -16,6 +16,8 @@ This role uses three type of variables. First and second depends on installation
 * **install_from** - The type of Nginx instalation. [source | repo]. Default: `repo`
 * **nginx_http_add** - List of additioanl params that will be added to the http section of Nginx configuration file. Default: []
 * **nginx_stream_add** - List of additioanl params that will be added to the stream section of Nginx configuration file. Default: []
+* **ssl_cert_path** - directory for SSL certificates which are used by Nginx
+* **user_certs_path** - directory with your ssl certs which need copy to Nginx
 
 ### Web server
 * **nginx_virtual_servers** - list of virtual servers. Default: []

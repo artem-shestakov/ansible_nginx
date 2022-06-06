@@ -7,6 +7,8 @@ stub_status_settings:
   server_name: 127.0.0.1
   location: /nginx_status
 
+ssl_cert_path: /etc/nginx/ssl
+
 # Nginx version to install
 nginx_version: 1.20.1
 wkr_conn: 1024

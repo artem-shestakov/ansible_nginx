@@ -1,0 +1,17 @@
+---
+- name: Create directory for SSL certificates
+  ansible.builtin.file:
+    path: "{{ ssl_cert_path }}"
+    state: directory
+    recurse: yes
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Copy certs
+  ansible.builtin.copy:
+    src: "{{ user_certs_path }}"
+    dest: "{{ ssl_cert_path }}"
+    owner: root
+    group: root
+    mode: '0644'

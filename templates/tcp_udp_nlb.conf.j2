@@ -5,11 +5,16 @@ upstream {{ item.name }} {
         {% for server in item.servers -%}
         server {{ server }};
         {% endfor -%}
-    }
+}
 
 server {
         {% for listen in item.listen -%}
         listen     {{ listen }};
         {% endfor -%}
+        {% if item.proxy_ssl is defined %}proxy_ssl  {{ item.proxy_ssl }}; {% endif %}
+        {% if item.ssl_certificate is defined and item.ssl_certificate_key is defined %}
+        ssl_certificate       /etc/ssl/certs/server.crt;
+        ssl_certificate_key   /etc/ssl/certs/server.key;
+        {% endif %}
         proxy_pass {{ item.name}};
-    }
+}

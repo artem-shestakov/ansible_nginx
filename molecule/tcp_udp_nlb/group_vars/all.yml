@@ -15,8 +15,6 @@ tcp_udp_nlb:
   - name: example1
     listen: 
       - 8443
-    proxy_ssl: on
-    
     servers:
       - google.com:443
   - name: example2
