@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   role_name: nginx
-  # namespace: artem_shestakov
+  namespace: artem_shestakov
   author: Artem Shestakov
   description: Ansible role to install Nginx on Debian/Red Hat OS family.
   license: license (BSD, MIT)
