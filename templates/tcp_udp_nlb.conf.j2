@@ -5,11 +5,18 @@ upstream {{ item.name }} {
         {% for server in item.servers -%}
         server {{ server }};
         {% endfor -%}
-    }
+}
 
 server {
-        {% for listen in item.listen -%}
+{% for listen in item.listen %}
         listen     {{ listen }};
-        {% endfor -%}
+{% endfor %}
+{% if item.proxy_ssl is defined and (item.proxy_ssl or item.proxy_ssl.lower() == on) %}
+        proxy_ssl on; 
+{% endif %}
+{% if item.ssl_certificate is defined and item.ssl_certificate_key is defined %}
+        ssl_certificate       {{ item.ssl_certificate }};
+        ssl_certificate_key   {{ item.ssl_certificate_key }};
+{% endif %}
         proxy_pass {{ item.name}};
-    }
+}
