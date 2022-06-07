@@ -1,10 +1,10 @@
-Ansible Nginx role
+# Ansible Nginx role
 =========
 ![Build](https://github.com/artem-shestakov/ansible_nginx/actions/workflows/ci.yml/badge.svg?branch=main)
 
 Ansible role to install Nginx on Debian/Red Hat OS family.
 
-Requirements
+## Requirements
 ------------
 None
 
@@ -16,8 +16,7 @@ This role uses three type of variables. First and second depends on installation
 * **install_from** - The type of Nginx instalation. [source | repo]. Default: `repo`
 * **nginx_http_add** - List of additioanl params that will be added to the http section of Nginx configuration file. Default: []
 * **nginx_stream_add** - List of additioanl params that will be added to the stream section of Nginx configuration file. Default: []
-* **ssl_cert_path** - directory for SSL certificates which are used by Nginx
-* **user_certs_path** - directory with your ssl certs which need copy to Nginx
+* **ssl_cert_path** - directory for SSL certificates which are used by Nginx. Default: `\etc\nginx\ssl`
 
 ### Web server
 * **nginx_virtual_servers** - list of virtual servers. Default: []
@@ -37,6 +36,11 @@ This role uses three type of variables. First and second depends on installation
   * **listen** - Sets the address and port for IP, or the path for a UNIX-domain socket on which the server will accept requests. Default: `127.0.0.1:80`
   * **server_name** - Sets names of a virtual server. Default: `127.0.0.1`
   * **location** - Sets configuration depending on a request URI. Default: `/nginx_status`
+
+### Proxy SSL
+* **proxy_ssl** - Enables the SSL/TLS protocol for connections to a proxied server.
+* **ssl_certificate** - Specifies a file with the certificate in the PEM format used for authentication to a proxied server. 
+* **proxy_ssl_certificate_key** - Specifies a file with the secret key in the PEM format used for authentication to a proxied server. 
 
 ### Install from repository variables
 
@@ -96,6 +100,12 @@ Example Playbook
             - 10.79.1.203:5601
 
 ```
+
+## Copy certificates to Nginx server
+1. Put your certificates in directory
+2. Set variables
+* **copy_ssl_certs** - true if need copy your certificates from local machine to remote Nginx server
+* **user_certs_path** - list of directories with your SSL certs which need copy to Nginx. Default: ['./files/ssl/*']
 
 License
 -------

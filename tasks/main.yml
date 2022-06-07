@@ -24,3 +24,7 @@
 
 - name: Delete unmanaged configuration files
   include_tasks: unmanaged.yml
+
+- name: Copy local SSL certificates
+  include_tasks: copy_ssl.yml
+  when: copy_ssl_certs

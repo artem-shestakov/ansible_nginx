@@ -10,8 +10,9 @@
 
 - name: Copy certs
   ansible.builtin.copy:
-    src: "{{ user_certs_path }}"
+    src: "{{ item }}"
     dest: "{{ ssl_cert_path }}"
     owner: root
     group: root
     mode: '0644'
+  with_fileglob: "{{ user_certs_path }}"

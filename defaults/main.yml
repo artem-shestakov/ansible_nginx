@@ -7,8 +7,6 @@ stub_status_settings:
   server_name: 127.0.0.1
   location: /nginx_status
 
-ssl_cert_path: /etc/nginx/ssl
-
 # Nginx version to install
 nginx_version: 1.20.1
 wkr_conn: 1024
@@ -50,3 +48,10 @@ nginx_dynamic_modules:
     module_file: ngx_http_image_filter_module.so
   - name: http_geoip_module
     module: ngx_http_geoip_module.so
+
+# SSL
+ssl_cert_path: /etc/nginx/ssl
+
+# Copy SSL
+copy_ssl_certs: False
+user_certs_path: ./files/ssl/*

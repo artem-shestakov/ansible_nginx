@@ -11,12 +11,14 @@ nginx_virtual_servers:
       - location: /
         params:
           - proxy_pass https://google.com;
+copy_ssl_certs: True
 tcp_udp_nlb:
   - name: example1
     listen: 
-      - 8443
+      - 8443 ssl
     proxy_ssl: on
-    
+    ssl_certificate: "{{ ssl_cert_path }}/localhost1.crt"
+    ssl_certificate_key: "{{ ssl_cert_path }}/localhost1.key"
     servers:
       - google.com:443
   - name: example2
