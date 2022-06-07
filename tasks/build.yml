@@ -3,13 +3,14 @@
   include_tasks: dependencies.yml
 
 - name: Downloading the Sources
-  get_url:
+  ansible.builtin.get_url:
     url: https://nginx.org/download/nginx-{{ nginx_version }}.tar.gz
     dest: "/tmp/nginx-{{ nginx_version }}.tar.gz"
+    mode: "0644"
   register: nginx_source
 
 - name: Unpack source files
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ nginx_source.dest }}"
     dest: /tmp
     remote_src: true
@@ -17,7 +18,7 @@
 
 - name: Create Nginx directories
   become: true
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: root
@@ -37,7 +38,7 @@
   when: nginx_add_modules is defined
 
 - name: Configuring NGINX source with custom modules
-  shell: >
+  ansible.builtin.shell: >
     {{ source_unpack.dest }}/nginx-{{ nginx_version }}/configure
     --prefix={{ nginx_prefix }}
     --sbin-path={{ nginx_sbin_path }}
@@ -64,13 +65,13 @@
 
 - name: Installing NGINX
   become: true
-  shell: make && make install
+  ansible.builtin.shell: make && make install
   args:
     chdir: "{{ source_unpack.dest }}/nginx-{{ nginx_version }}"
   notify: Enable and start Nginx
 
 - name: Create unit file
-  template:
+  ansible.builtin.template:
     src: nginx.service.j2
     dest: /etc/systemd/system/nginx.service
     owner: root
@@ -79,7 +80,7 @@
   notify: Enable and start Nginx
 
 - name: Create Nginx user
-  user:
+  ansible.builtin.user:
     name: "{{ nginx_user }}"
     shell: /sbin/nologin
     expires: -1

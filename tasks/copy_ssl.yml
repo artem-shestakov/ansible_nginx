@@ -3,7 +3,7 @@
   ansible.builtin.file:
     path: "{{ ssl_cert_path }}"
     state: directory
-    recurse: yes
+    # recurse: yes
     owner: root
     group: root
     mode: '0755'

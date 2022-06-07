@@ -1,11 +1,11 @@
 ---
 - name: Check if git package is installed
-  package:
+  ansible.builtin.package:
     name: git
     state: present
 
 - name: Download source code of modules from git repositories
-  git:
+  ansible.builtin.git:
     repo: "{{ item }}"
     dest: "/tmp/{{ item.split('/')[-1].split('.')[0] }}"
     version: master

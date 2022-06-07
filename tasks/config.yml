@@ -1,6 +1,6 @@
 ---
 - name: Loading Nginx configuration file
-  template:
+  ansible.builtin.template:
     src: nginx.conf.j2
     dest: /etc/nginx/nginx.conf
     owner: root
@@ -10,7 +10,7 @@
     - Reload Nginx configuration
 
 - name: Set binding IP that doesn’t exist
-  sysctl:
+  ansible.builtin.sysctl:
     name: net.ipv4.ip_nonlocal_bind
     value: 1
     sysctl_set: true

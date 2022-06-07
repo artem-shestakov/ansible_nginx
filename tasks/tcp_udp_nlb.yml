@@ -1,6 +1,6 @@
 ---
 - name: Create Stream config directory
-  file:
+  ansible.builtin.file:
     path: /etc/nginx/stream-conf.d
     state: directory
     owner: root
@@ -8,7 +8,7 @@
     mode: '0755'
 
 - name: Configuring TCP or UDP Load Balancing
-  template:
+  ansible.builtin.template:
     src: tcp_udp_nlb.conf.j2
     dest: "/etc/nginx/stream-conf.d/upstream_{{ item.name }}.conf"
     owner: root

@@ -1,6 +1,6 @@
 ---
 - name: Create virtual hosts configuration files
-  template:
+  ansible.builtin.template:
     src: virtual_server.conf.j2
     dest: "/etc/nginx/conf.d/{{ item.listen|replace(\":\",\"_\") }}.conf"
     owner: root

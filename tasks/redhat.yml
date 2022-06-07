@@ -1,12 +1,12 @@
 ---
 - name: Install the EPEL repository
-  yum:
+  ansible.builtin.yum:
     name: epel-release
     state: present
     update_cache: true
 
 - name: Install Nginx
-  yum:
+  ansible.builtin.yum:
     name:
       - nginx
       - policycoreutils-python-utils
@@ -15,7 +15,7 @@
     - Enable and start Nginx
 
 - name: Remove default virtualhost
-  file:
+  ansible.builtin.file:
     path: /etc/nginx/conf.d/default.conf
     state: absent
 
