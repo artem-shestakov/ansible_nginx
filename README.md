@@ -37,10 +37,12 @@ This role uses three type of variables. First and second depends on installation
   * **server_name** - Sets names of a virtual server. Default: `127.0.0.1`
   * **location** - Sets configuration depending on a request URI. Default: `/nginx_status`
 
-### Proxy SSL
+### SSL
 * **proxy_ssl** - Enables the SSL/TLS protocol for connections to a proxied server.
-* **ssl_certificate** - Specifies a file with the certificate in the PEM format used for authentication to a proxied server. 
-* **proxy_ssl_certificate_key** - Specifies a file with the secret key in the PEM format used for authentication to a proxied server. 
+* **ssl_certificate** - Specifies a file with the secret key in the PEM format for the given virtual server.  
+* **ssl_certificate_key** - Specifies a file with the secret key in the PEM format used for authentication to a proxied server. 
+* **proxy_ssl_certificate** - Specifies a file with the certificate in the PEM format used for authentication to a proxied HTTPS server
+* **proxy_ssl_certificate_key** - Specifies a file with the secret key in the PEM format used for authentication to a proxied HTTPS server. 
 
 ### Install from repository variables
 

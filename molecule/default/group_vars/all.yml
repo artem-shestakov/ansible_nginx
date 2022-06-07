@@ -22,6 +22,8 @@ tcp_udp_nlb:
     servers:
       - google.com:443
   - name: example2
+    proxy_ssl_certificate: "{{ ssl_cert_path }}/localhost2.crt"
+    proxy_ssl_certificate_key: "{{ ssl_cert_path }}/localhost2.key"
     listen: 
       - 9443
     servers:

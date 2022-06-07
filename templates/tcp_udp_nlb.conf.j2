@@ -18,5 +18,9 @@ server {
         ssl_certificate       {{ item.ssl_certificate }};
         ssl_certificate_key   {{ item.ssl_certificate_key }};
 {% endif %}
+{% if item.proxy_ssl_certificate is defined and item.proxy_ssl_certificate_key is defined %}
+        proxy_ssl_certificate       {{ item.proxy_ssl_certificate }};
+        proxy_ssl_certificate_key   {{ item.proxy_ssl_certificate_key }};
+{% endif %}
         proxy_pass {{ item.name}};
 }
