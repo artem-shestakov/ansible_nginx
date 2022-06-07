@@ -1,6 +1,6 @@
 ---
 - name: Installing NGINX Dependencies (Red Hat OS Family)
-  dnf:
+  ansible.builtin.dnf:
     name:
       - gcc
       - gcc-c++
@@ -18,7 +18,7 @@
   when: ansible_facts['os_family'] == "RedHat"
 
 - name: Installing NGINX Dependencies (Debian OS Family)
-  apt:
+  ansible.builtin.apt:
     name:
       - build-essential
       - libpcre3

@@ -1,6 +1,6 @@
 ---
 - name: Add repository
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: deb https://nginx.org/packages/ubuntu/ {{ ansible_facts['lsb']['codename'] }} nginx
     state: present
     filename: nginx
@@ -8,26 +8,26 @@
   ignore_errors: true
 
 - name: Add dirmngr package
-  apt:
+  ansible.builtin.apt:
     name: dirmngr
     state: present
   when: repo.failed
 
 - name: Adding repository key
-  apt_key:
+  ansible.builtin.apt_key:
     keyserver: keyserver.ubuntu.com
     id: "{{ repo | regex_search('^.* NO_PUBKEY (\\w*)', '\\1') | first }}"
   when: repo.failed
 
 - name: Re-adding repository
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: deb https://nginx.org/packages/ubuntu/ {{ ansible_facts['lsb']['codename'] }} nginx
     state: present
     filename: nginx
   when: repo.failed
 
 - name: Installing Nginx package
-  apt:
+  ansible.builtin.apt:
     name: nginx
     state: present
     update_cache: true
@@ -35,6 +35,6 @@
     - Enable and start Nginx
 
 - name: Remove default virtualhost
-  file:
+  ansible.builtin.file:
     path: /etc/nginx/conf.d/default.conf
     state: absent
