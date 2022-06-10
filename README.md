@@ -39,10 +39,11 @@ This role uses three type of variables. First and second depends on installation
 
 ### SSL
 * **proxy_ssl** - Enables the SSL/TLS protocol for connections to a proxied server.
-* **ssl_certificate** - Specifies a file with the secret key in the PEM format for the given virtual server.  
-* **ssl_certificate_key** - Specifies a file with the secret key in the PEM format used for authentication to a proxied server. 
 * **proxy_ssl_certificate** - Specifies a file with the certificate in the PEM format used for authentication to a proxied HTTPS server
 * **proxy_ssl_certificate_key** - Specifies a file with the secret key in the PEM format used for authentication to a proxied HTTPS server. 
+* **proxy_ssl_ciphers** - Specifies the enabled ciphers for connections to a proxied server. The ciphers are specified in the format understood by the OpenSSL library. 
+* **ssl_certificate** - Specifies a file with the secret key in the PEM format for the given virtual server.  
+* **ssl_certificate_key** - Specifies a file with the secret key in the PEM format used for authentication to a proxied server. 
 
 ### Install from repository variables
 
